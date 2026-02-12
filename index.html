@@ -25,7 +25,7 @@
         h1 { font-family: 'Dancing Script', cursive; color: #ff4d6d; font-size: 2.8rem; margin-bottom: 10px; }
         p { color: #555; font-size: 1.1rem; line-height: 1.6; }
 
-        .gif-container img { width: 180px; margin-bottom: 20px; border-radius: 15px; }
+        .gif-container img { width: 220px; margin-bottom: 20px; border-radius: 15px; }
 
         .btn-group {
             display: flex; justify-content: center; align-items: center;
@@ -54,7 +54,6 @@
 
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
-        /* Stile per la frase segreta */
         .secret-message {
             font-family: 'Dancing Script', cursive;
             font-size: 1.4rem;
@@ -68,7 +67,7 @@
 
     <div class="card" id="mainCard">
         <div class="gif-container" id="main-gif">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh3eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Bear">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIwb2phN3N1ZnZ3emM0OXAydm9oY2R6Nmg5dm9yZGtqYWZ6OHByZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lp71UqhM40Yo0NWUA5/giphy.gif" alt="Romantic Hearts">
         </div>
         <h1 id="title">Ehi, dico a te... ❤️</h1>
         <p id="message">Ho cercato le parole giuste, ma la verità è che il mio mondo è più bello da quando ci sei tu. Mi faresti felice essendo il mio San Valentino?</p>
@@ -90,7 +89,6 @@
 
         let yesScale = 1;
 
-        // Logica per il tasto NO
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -102,25 +100,20 @@
             warning.style.opacity = '1';
             title.innerText = "Ritenta, sarai più fortunato! 😜";
             
-            // Il tasto SI cresce per rendere impossibile ignorarlo
-            yesScale += 0.2;
+            yesScale += 0.25;
             yesBtn.style.transform = `scale(${yesScale})`;
         });
 
-        // Logica per il tasto SI
         yesBtn.addEventListener('click', () => {
-            // Cambio contenuto della card
             card.innerHTML = `
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh3eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lH4ADRtAYnGsLe/giphy.gif" width="200" style="border-radius:20px;">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHY1dzBvODVqcXF4Znd6Ym1uOHR4eHh4eHh4eHh4eHh4eHh4ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/S9oGIGurgrLFe/giphy.gif" width="220" style="border-radius:20px;">
                 <h1>Sapevo che avresti scelto noi! ❤️</h1>
                 <p>Hai appena reso questa giornata indimenticabile.</p>
                 <div class="secret-message" id="typewriter"></div>
             `;
             
-            // Avvia pioggia intensa di cuori
             setInterval(createHeart, 100);
 
-            // Frase segreta con effetto scrittura
             const fraseSegreta = "P.S. Sei la persona più speciale che io conosca e non vedo l'ora di vederti. ✨";
             let i = 0;
             function typeWriter() {
@@ -130,10 +123,9 @@
                     setTimeout(typeWriter, 50);
                 }
             }
-            setTimeout(typeWriter, 1000); // Inizia dopo un secondo
+            setTimeout(typeWriter, 1000);
         });
 
-        // Funzione Cuori
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart-fall');
