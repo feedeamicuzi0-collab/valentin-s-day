@@ -14,32 +14,31 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px; border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            text-align: center; max-width: 400px; z-index: 10;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            text-align: center; max-width: 450px; z-index: 10;
             border: 2px solid #ff4d6d;
+            transition: all 0.5s ease;
         }
 
         h1 { font-family: 'Dancing Script', cursive; color: #ff4d6d; font-size: 2.8rem; margin-bottom: 10px; }
-        p { color: #555; font-size: 1.1rem; line-height: 1.5; }
+        p { color: #555; font-size: 1.1rem; line-height: 1.6; }
 
         .gif-container img { width: 180px; margin-bottom: 20px; border-radius: 15px; }
 
         .btn-group {
             display: flex; justify-content: center; align-items: center;
-            gap: 20px; margin-top: 30px; position: relative; height: 80px;
+            gap: 20px; margin-top: 30px; position: relative; min-height: 100px;
         }
 
         button {
             padding: 15px 35px; font-size: 1.2rem; border-radius: 50px; border: none;
-            cursor: pointer; font-weight: 600; transition: all 0.3s ease;
+            cursor: pointer; font-weight: 600; transition: all 0.2s ease;
             box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
         }
 
-        #yesBtn { background: #ff4d6d; color: white; }
-        #yesBtn:hover { transform: scale(1.1); background: #ff758f; }
-
+        #yesBtn { background: #ff4d6d; color: white; z-index: 100; }
         #noBtn { background: #6c757d; color: white; position: relative; }
 
         .warning-text {
@@ -54,20 +53,29 @@
         }
 
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        /* Stile per la frase segreta */
+        .secret-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            color: #d63384;
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
+    <div class="card" id="mainCard">
         <div class="gif-container" id="main-gif">
             <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh3eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Bear">
         </div>
-        <h1 id="title">Sei la mia felicità... ❤️</h1>
-        <p id="message">Ogni momento con te è un regalo. Mi faresti l'onore di essere il mio San Valentino?</p>
+        <h1 id="title">Ehi, dico a te... ❤️</h1>
+        <p id="message">Ho cercato le parole giuste, ma la verità è che il mio mondo è più bello da quando ci sei tu. Mi faresti felice essendo il mio San Valentino?</p>
         
         <div class="btn-group">
-            <div id="warning" class="warning-text">⚠️ Impossibile dire NO! 😉</div>
-            <button id="yesBtn">SÌ, PER SEMPRE!</button>
+            <div id="warning" class="warning-text">⚠️ Opzione non disponibile! 😉</div>
+            <button id="yesBtn">SÌ! ❤️</button>
             <button id="noBtn">NO</button>
         </div>
     </div>
@@ -78,16 +86,11 @@
         const warning = document.getElementById('warning');
         const title = document.getElementById('title');
         const message = document.getElementById('message');
-        const mainGif = document.getElementById('main-gif');
+        const card = document.getElementById('mainCard');
 
-        let clickCount = 0;
-        const frases = [
-            "Sei la cosa più bella che mi sia capitata.",
-            "Il mio cuore batte solo per te.",
-            "Non riesco a immaginare un San Valentino senza di te."
-        ];
+        let yesScale = 1;
 
-        // Funzione per muovere il tasto NO e mostrare l'avviso
+        // Logica per il tasto NO
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -97,43 +100,50 @@
             noBtn.style.top = y + 'px';
             
             warning.style.opacity = '1';
+            title.innerText = "Ritenta, sarai più fortunato! 😜";
             
-            // Cambia frase mentre provano a scappare
-            title.innerText = "Non scappare! 😍";
-            message.innerText = "Il destino ha già deciso...";
-            
-            // Ingrandisce il SI ogni volta che il NO scappa
-            let currentScale = parseFloat(yesBtn.style.transform.replace('scale(', '').replace(')', '')) || 1;
-            yesBtn.style.transform = `scale(${currentScale + 0.15})`;
+            // Il tasto SI cresce per rendere impossibile ignorarlo
+            yesScale += 0.2;
+            yesBtn.style.transform = `scale(${yesScale})`;
         });
 
-        // Quando clicca SI
+        // Logica per il tasto SI
         yesBtn.addEventListener('click', () => {
-            document.querySelector('.card').innerHTML = `
+            // Cambio contenuto della card
+            card.innerHTML = `
                 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh3eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lH4ADRtAYnGsLe/giphy.gif" width="200" style="border-radius:20px;">
-                <h1 style="font-family:'Dancing Script'; color:#ff4d6d;">Hai reso il mio cuore felice! ❤️</h1>
-                <p>Non vedo l'ora di festeggiare insieme a te.</p>
-                <p style="font-size:0.8rem; color:#888;">Ti amo.</p>
+                <h1>Sapevo che avresti scelto noi! ❤️</h1>
+                <p>Hai appena reso questa giornata indimenticabile.</p>
+                <div class="secret-message" id="typewriter"></div>
             `;
-            startFullHearts();
+            
+            // Avvia pioggia intensa di cuori
+            setInterval(createHeart, 100);
+
+            // Frase segreta con effetto scrittura
+            const fraseSegreta = "P.S. Sei la persona più speciale che io conosca e non vedo l'ora di vederti. ✨";
+            let i = 0;
+            function typeWriter() {
+                if (i < fraseSegreta.length) {
+                    document.getElementById("typewriter").innerHTML += fraseSegreta.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            setTimeout(typeWriter, 1000); // Inizia dopo un secondo
         });
 
-        // Pioggia di cuori continua
+        // Funzione Cuori
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart-fall');
-            heart.innerHTML = ['❤️','💖','✨','🌹'][Math.floor(Math.random() * 4)];
+            heart.innerHTML = ['❤️','💖','✨','🌹','🌸'][Math.floor(Math.random() * 5)];
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            heart.style.opacity = Math.random();
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 5000);
         }
-        setInterval(createHeart, 250);
-
-        function startFullHearts() {
-            setInterval(createHeart, 50); // Pioggia intensissima alla fine
-        }
+        setInterval(createHeart, 300);
     </script>
 </body>
 </html>
