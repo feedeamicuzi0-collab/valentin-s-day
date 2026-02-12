@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Per Te ❤️</title>
+    <style>
+        body { 
+            background-color: #fff0f3; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            overflow: hidden; 
+            text-align: center;
+        }
+
+        .container {
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h1 { color: #ff4d6d; font-size: 2.5rem; margin-bottom: 20px; }
+
+        /* La GIF carina */
+        .gif-container img {
+            width: 200px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 150px; /* Spazio per far crescere il tasto */
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        #yesBtn { background-color: #ff4d6d; color: white; z-index: 100; }
+
+        #noBtn { 
+            background-color: #adb5bd; 
+            color: white; 
+            position: absolute; 
+        }
+
+        /* Animazione cuoricini */
+        .heart {
+            position: fixed;
+            top: -10px;
+            color: #ff4d6d;
+            font-size: 20px;
+            user-select: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="gif-container">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh3eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute bear">
+        </div>
+        <h1>Vuoi essere il mio San Valentino? 🌹</h1>
+        <div class="buttons">
+            <button id="yesBtn">SÌ</button>
+            <button id="noBtn">NO</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        let yesSize = 1.2;
+
+        // 1. Il tasto NO scappa
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            // Ogni volta che provano a cliccare NO, il SI diventa più grande!
+            yesSize += 0.2;
+            yesBtn.style.transform = `scale(${yesSize})`;
+        });
+
+        // 2. Quando clicca SÌ
+        yesBtn.addEventListener('click', () => {
+            document.querySelector('.container').innerHTML = `
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh3eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lH4ADRtAYnGsLe/giphy.gif" width="200">
+                <h1 style="color: #ff4d6d;">Sapevo che avresti detto di SÌ! ❤️</h1>
+                <p>Preparati per il miglior appuntamento di sempre!</p>
+            `;
+        });
+
+        // 3. Pioggia di cuori continua
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
